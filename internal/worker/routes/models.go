@@ -44,3 +44,8 @@ type DeleteRequest struct{
 type GetRequest struct{
 	ID uint64 `json:"id"`
 }
+
+type UpdateReq struct{
+	Worker Worker `json:"worker"`
+	ID uint64 `json:"id"`
+}
