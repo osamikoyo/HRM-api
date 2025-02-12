@@ -7,10 +7,10 @@ import (
 )
 
 type Client struct{
-	pb.WorkerServiceClient
+	client pb.WorkerServiceClient
 }
 
-func Init(cfg *config.Config) (*Client, error) {
+func InitClient(cfg *config.Config) (*Client, error) {
 	cc, err := grpc.Dial(cfg.WorkerSvcUrl, grpc.WithInsecure())
 	if err != nil{
 		return nil, err
