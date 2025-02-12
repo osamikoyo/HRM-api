@@ -32,3 +32,11 @@ func (c *Client) Get(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, result)
 }
+
+func (c *Client) Update(ctx echo.Context) error {
+	return routes.Update(ctx, c.client)
+}
+
+func (c *Client) Delete(ctx echo.Context) error {
+	return routes.Delete(ctx, c.client)
+}
