@@ -10,9 +10,6 @@ import (
 	"github.com/osamikoyo/hrm-api/internal/worker/pb"
 )
 
-type DeleteRequest struct{
-	ID uint64 `json:"id"`
-}
 
 func Delete(ctx echo.Context, c pb.WorkerServiceClient) error {
 	var DeleteRequest DeleteRequest

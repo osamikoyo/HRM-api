@@ -11,6 +11,20 @@ type Worker struct{
 	Post string
 }
 
+func ToModels(pbwork *pb.Worker) *Worker {
+	work := &Worker{
+		UserID: pbwork.UserID,
+		Salary: pbwork.Salary,
+		Firstname: pbwork.Firstname,
+		Secondname: pbwork.Secondname,
+		Post: pbwork.Post,
+		Email: pbwork.Email,
+	}
+
+	return work
+}
+
+
 func ToPB(worker *Worker) *pb.Worker {
 	work := &pb.Worker{
 		UserID: worker.UserID,
@@ -21,4 +35,12 @@ func ToPB(worker *Worker) *pb.Worker {
 		Post: worker.Post,
 	}
 	return work
+}
+
+type DeleteRequest struct{
+	ID uint64 `json:"id"`
+}
+
+type GetRequest struct{
+	ID uint64 `json:"id"`
 }
