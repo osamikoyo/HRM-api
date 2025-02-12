@@ -1,0 +1,4 @@
+port : 8080
+hostname : "localhost"
+worker_service_addr : "localhost:50051"
+vocation_service_addr : "localhost:50052"

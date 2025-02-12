@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package vocation;
+
+option go_package = "./internal/vocation/pb";
+
+message Vocation{
+    uint64 VocID = 4;
+    uint64 UserID = 1;
+    string Email = 5;
+    string StartTime = 2;
+    string EndTime = 3;
+}
+
+service VocationService{
+    rpc Add (AddVocationRequest) returns (Response);
+    rpc Delete (DeleteVocationRequest) returns (Response);
+    rpc Get (GetVocationRequest) returns (GetVocationResponse);
+}
+message DeleteVocationRequest{
+    uint64 UserID = 1; 
+}
+message AddVocationRequest{
+    Vocation vocation = 1;
+}
+
+message Response{
+    string Error = 1;
+    int64 Status = 2;
+}
+
+message GetVocationRequest{
+    uint64 UserID = 1;
+}
+
+message GetVocationResponse{
+    Vocation vocation = 1;
+}
