@@ -9,15 +9,16 @@ import (
 	"github.com/osamikoyo/hrm-api/internal/vocation/pb"
 )
 
-func Add(c echo.Context, cc pb.VocationServiceClient) error {
-	var voc Vocation
-	if err := c.Bind(&voc);err != nil{
+func Delete(c echo.Context, cc pb.VocationServiceClient) error {
+	var req DeleteReq
+	if err := c.Bind(&req);err != nil{
 		return err
 	}
 
-	resp, err := cc.Add(context.Background(), &pb.AddVocationRequest{
-		Vocation: ToPB(&voc),
+	resp, err := cc.Delete(context.Background(), &pb.DeleteVocationRequest{
+		UserID: req.UserID,
 	})
+
 	if err != nil{
 		return fmt.Errorf("cant do a request: %w", err)
 	}
