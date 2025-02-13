@@ -6,6 +6,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/osamikoyo/hrm-api/internal/config"
+	"github.com/osamikoyo/hrm-api/internal/vocation"
 	"github.com/osamikoyo/hrm-api/internal/worker"
 	"github.com/osamikoyo/hrm-api/pkg/loger"
 )
@@ -31,7 +32,12 @@ func (s *Server) Run(ctx context.Context) error {
 		s.Echo.Shutdown(ctx)	
 	}()
 
+	s.Loger.Info().Msg("Registing routers...")
+
 	worker.RegisterRoutes(s.Echo, s.Config)
+	vocation.RegisterRoutes(s.Echo, s.Config)
+
+	s.Loger.Info().Msg("Starting http server...")
 
 	return s.Echo.Start(fmt.Sprintf("%s:%d", s.Config.Host, s.Config.Port))
 }
