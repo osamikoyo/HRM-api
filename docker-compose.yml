@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - mynetwork
+
+  worker:
+    image: hrm-worker:latest
+    container_name: worker
+    ports:
+      - "50051:50051"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: user
+      RABBITMQ_PASSWORD: password
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+
+  vocation:
+    image: your-vocation-image:latest
+    container_name: vocation
+    ports:
+      - "50052:50052"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: user
+      RABBITMQ_PASSWORD: password
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+
+  notifications:
+    image: hrm-notify:latest
+    container_name: notifications
+    ports:
+      - "50053:50053"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: user
+      RABBITMQ_PASSWORD: password
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+
+  api:
+    image: hrm-api:latest
+    container_name: api
+    ports:
+      - "8080:8080"
+    environment:
+      WORKER_SERVICE_URL: worker:50051
+      VOCATION_SERVICE_URL: vocation:50052
+      NOTIFICATIONS_SERVICE_URL: notifications:50053
+    depends_on:
+      - worker
+      - vocation
+      - notifications
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
